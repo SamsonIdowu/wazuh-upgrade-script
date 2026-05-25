@@ -1,0 +1,52 @@
+# Configuration for Wazuh upgrade automation.
+
+# Global SSH defaults used by the multi-node script.
+ssh:
+  username: <SSH_USERNAME>
+  port: 22
+  key: ~/.ssh/wazuh_upgrade
+  sudo: true
+  # sudo_password: "your_sudo_password_here"
+  # Required when the SSH user needs a password for sudo (i.e. not NOPASSWD).
+  # The password is passed to sudo via stdin (-S flag) so no PTY is needed.
+  # Recommended alternative: add the user to sudoers with NOPASSWD for the
+  # specific commands used by this script.
+
+wazuh:
+
+  indexer:
+    # Credentials for the indexer API calls used during the rolling upgrade.
+    username: admin
+    password: "***********************"
+    api_url: https://<WAZUH_INDEXER_IP>:9200
+
+  # For the single-node script, you can also put a local section under this file.
+  # The cluster script uses the nodes list below.
+
+nodes:
+
+  indexers:
+    - name: node-1
+      host: <IP_ADDRESS>
+      local: true
+
+    - name: node-2
+      host: <IP_ADDRESS>
+
+  servers:
+    - name: wazuh-1
+      host: <IP_ADDRESS>
+
+    - name: wazuh-2
+      host: <IP_ADDRESS>
+
+  dashboards:
+    - name: wazuh-dashboard
+      host: <IP_ADDRESS>
+
+
+# Optional version info:
+# source_version controls the version-gated ossec.conf changes.
+# target_version is used for the Filebeat template URL.
+source_version: "4.8.2"
+target_version: "4.14.5"
