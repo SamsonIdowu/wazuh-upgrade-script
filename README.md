@@ -1,0 +1,1 @@
+# wazuh-upgrade-script
